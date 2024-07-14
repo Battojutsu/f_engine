@@ -15,6 +15,6 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-pub const WIDTH: u32 = 960;
-pub const HEIGHT: u32 = 640;
-pub const GRID_SIZE: u32 = 32;
+pub const WIDTH: i32 = 960;
+pub const HEIGHT: i32 = 640;
+pub const GRID_SIZE: i32 = 32;
