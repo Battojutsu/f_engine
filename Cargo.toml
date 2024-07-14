@@ -5,3 +5,5 @@ edition = "2021"
 
 [dependencies]
 allegro = "0.0.46"
+allegro_font = "0.0.46"
+tiled = "0.12.0"
