@@ -1,42 +1,40 @@
-//#include "../libraries/cute_headers/cute_tiled.h"
-//#include "../load_map.c"
-//#include "allegro_container.c"
-//#include "player_container.c"
+/*
+    f_engine - A farming and village life game game engine.
+    Copyright (C) 2024  BattoJutsu
+
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, version 3 of the License
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 use tiled::Loader;
-/*
-struct GameStructure {
-    alleg: AllegroStructure,
-    player: PlayerStructure,
-    map: Map,
+#[path = "allegro_container.rs"]
+mod allegro_container;
+#[path = "player_container.rs"]
+mod player_container;
+
+pub struct GameStructure {
+    alleg: allegro_container::AllegroStructure,
+    player: player_container::PlayerStructure,
+    map: tiled::Map,
 }
 
-    */
-
-pub fn game_constructor(filename: &str) /*-> GameStructure */
-{
-    //cute_tiled_map_t *map = cute_tiled_load_map_from_file(filename, NULL);
-
+pub fn game_constructor(filename: &str) -> GameStructure {
     let mut loader: Loader = Loader::new();
-    let map = loader.load_tmx_map("src/resources/tests.tmx").unwrap();
-
-    /*
-    let game_structure: GameStructure = {
-        0,
-        0,
-        map
+    let map: tiled::Map = loader
+        .load_tmx_map("src/resources/maps/inside1.tmx")
+        .unwrap();
+    GameStructure {
+        alleg: allegro_container::allegro_constructor(&map, filename),
+        player: player_container::player_constructor(),
+        map: map,
     }
-
-    */
-    /*
-    struct game_structure game =
-        {
-            allegro_constructor(map, filename),
-            player_constructor(),
-            map};
-
-    return game;
-
-    */
 }
-//#endif

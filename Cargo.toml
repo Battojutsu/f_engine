@@ -5,5 +5,9 @@ edition = "2021"
 
 [dependencies]
 allegro = "0.0.46"
+allegro_color = "0.0.46"
 allegro_font = "0.0.46"
+allegro_image = "0.0.46"
+allegro_primitives = "0.0.46"
+allegro_ttf = "0.0.46"
 tiled = "0.12.0"

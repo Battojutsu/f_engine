@@ -31,6 +31,29 @@ dependencies = [
 ]
 
 [[package]]
+name = "allegro_color"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4c10d106c5f315ff87184036766d4c96cd392a95068406c95bd0830be63a132f"
+dependencies = [
+ "allegro",
+ "allegro_color-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_color-sys"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5c641fd0a9c138e8a32c4a8e64d1c8c66f5aadde8b0441c79cfdcce6f09a43d0"
+dependencies = [
+ "allegro-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
 name = "allegro_font"
 version = "0.0.46"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -50,6 +73,76 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2ace8efb7313c3638f0f1de7ff728056d339254d77a70fae7bd95aa45c157364"
 dependencies = [
  "allegro-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_image"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f74269b799fd689d1f19d1c1d6689cd12271dae389b3aa01f5ec1ee753514978"
+dependencies = [
+ "allegro",
+ "allegro_image-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_image-sys"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6bdbc5454db60eb9951aca53270ebbfe84140f4816c255c651a1d46e28778240"
+dependencies = [
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_primitives"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c99999de59c3fe566a536d52687908f533d7b4e1d3949763384c3a9211d73c03"
+dependencies = [
+ "allegro",
+ "allegro-sys",
+ "allegro_primitives-sys",
+ "libc",
+]
+
+[[package]]
+name = "allegro_primitives-sys"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "790c5459130c51bb1157e131164a6c579727f06f2ecb9196bbb0589e3c56a718"
+dependencies = [
+ "allegro-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_ttf"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55125ad902e436473ef18daecb5364f21f3e34a542a7ca667d4341504ab619f7"
+dependencies = [
+ "allegro",
+ "allegro_font",
+ "allegro_ttf-sys",
+ "allegro_util",
+ "libc",
+]
+
+[[package]]
+name = "allegro_ttf-sys"
+version = "0.0.46"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "fc7105e63b539409e106f7d4095cb49c8b1df2bed5101bacebeb8c91afa736aa"
+dependencies = [
+ "allegro-sys",
+ "allegro_font-sys",
  "allegro_util",
  "libc",
 ]
@@ -100,7 +193,11 @@ name = "f_engine"
 version = "0.1.0"
 dependencies = [
  "allegro",
+ "allegro_color",
  "allegro_font",
+ "allegro_image",
+ "allegro_primitives",
+ "allegro_ttf",
  "tiled",
 ]
 
