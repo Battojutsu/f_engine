@@ -18,7 +18,7 @@
 // This file defines struct PlayerStructure and how to initialize
 // one. This file is meant to combine player variables to easily pass between functions.
 
-struct PlayerStructure {
+pub struct PlayerStructure {
     PLYR_X: i32,
     PLYR_Y: i32,
 }
