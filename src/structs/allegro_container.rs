@@ -38,7 +38,7 @@ pub struct AllegroStructure {
     black: *const Color,
     white: *const Color,
     screen: *const Color,
-    bitmap: *const Bitmap,
+    bitmap: Bitmap,
 }
 
 pub fn allegro_constructor(map: &tiled::Map, filename: &str) -> AllegroStructure {

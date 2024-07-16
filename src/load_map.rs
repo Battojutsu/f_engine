@@ -15,16 +15,35 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use tiled::Loader;
+use tiled::{Image, Loader, Tileset};
 
 use allegro::*;
-use allegro_image::*;
+//use allegro_image::*;
 #[path = "constants.rs"]
 mod constants;
 
-pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map) -> *const Bitmap {
+pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map) -> Bitmap {
     const READONLY_BINARY: &str = "rb";
     let mut loader: Loader = Loader::new();
 
-    &Bitmap::new(&core, constants::WIDTH, constants::HEIGHT).unwrap()
+    let cute_tileset: Tileset =
+        match loader.load_tsx_tileset("src/resources/tilesets/house_interior.tsx") {
+            Ok(v) => v,
+            Err(e) => panic!("Error loading tileset"),
+        };
+
+    let image: Image = match cute_tileset.image {
+        Some(v) => v,
+        None => panic!("Cannot load the image."),
+    };
+
+    let map_dir: &str = image.source.to_str().unwrap();
+    let tileset_bitmap: Bitmap = match Bitmap::load(&core, map_dir) {
+        Ok(v) => v,
+        Err(e) => panic!("Error loading tileset_bitmap {e:?}"),
+    };
+
+    let map_bitmap = Bitmap::new(&core, constants::WIDTH, constants::HEIGHT);
+
+    tileset_bitmap
 }
