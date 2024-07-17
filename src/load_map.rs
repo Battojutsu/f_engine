@@ -15,7 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use tiled::{Image, Loader, Tileset};
+use tiled::{Image, Loader, Tileset, Map, Layer};
 
 use allegro::*;
 //use allegro_image::*;
@@ -26,13 +26,13 @@ pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map
     const READONLY_BINARY: &str = "rb";
     let mut loader: Loader = Loader::new();
 
-    let cute_tileset: Tileset =
+    let tiled_tileset: Tileset =
         match loader.load_tsx_tileset("src/resources/tilesets/house_interior.tsx") {
             Ok(v) => v,
-            Err(e) => panic!("Error loading tileset"),
+            Err(e) => panic!("Error loading tileset {e}."),
         };
-
-    let image: Image = match cute_tileset.image {
+    
+    let image: Image = match tiled_tileset.image {
         Some(v) => v,
         None => panic!("Cannot load the image."),
     };
@@ -43,7 +43,13 @@ pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map
         Err(e) => panic!("Error loading tileset_bitmap {e:?}"),
     };
 
-    let map_bitmap = Bitmap::new(&core, constants::WIDTH, constants::HEIGHT);
+    let map_bitmap = Bitmap::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
+    let layers = map.layers();
+    for layer in layers.into_iter() {
+        let data = layer.as_tile_layer().unwrap();
+
+    }
+    core.set_target_bitmap(Some(&map_bitmap));
 
     tileset_bitmap
 }
