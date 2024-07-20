@@ -31,37 +31,49 @@ mod constants;
 mod lm;
 
 pub struct AllegroStructure {
-    display: *const Display,
-    queue: *const EventQueue,
-    timer: *const Timer,
-    font: *const Font,
-    black: *const Color,
-    white: *const Color,
-    screen: *const Color,
-    bitmap: Bitmap,
+    pub core: Core,
+    pub display: Display,
+    pub queue: EventQueue,
+    pub timer: Timer,
+    pub font: Font,
+    pub black: Color,
+    pub white: Color,
+    pub screen: Color,
+    pub bitmap: Bitmap,
 }
 
-pub fn allegro_constructor(map: &tiled::Map, filename: &str) -> AllegroStructure {
+pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let core = Core::init().unwrap();
+    let queue = EventQueue::new(&core).unwrap();
+    let timer = Timer::new(&core, 1.0 / 60.0).unwrap();
     let primitives_addon = PrimitivesAddon::init(&core).unwrap();
     let font_addon = FontAddon::init(&core).unwrap();
     let ttf_addon = TtfAddon::init(&font_addon).unwrap();
     let image_addon = ImageAddon::init(&core).unwrap();
     let font: Font = Font::new_builtin(&font_addon).unwrap();
 
+    let bitmap: Bitmap = Bitmap::new(&core, map.width as i32, map.height as i32).unwrap();
+
     let mut loader: Loader = Loader::new();
     let display: Display = Display::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
+    
+    queue.register_event_source(display.get_event_source());
+    queue.register_event_source(timer.get_event_source());
+    //queue.register_event_source(core.get_keyboard_event_source().unwrap());
 
     let allegro_structure: AllegroStructure = AllegroStructure {
-        display: &display,
-        queue: &EventQueue::new(&core).unwrap(),
-        timer: &Timer::new(&core, 1.0 / 60.0).unwrap(),
-        font: &font,
-        black: &Color::from_html_hex("#000000"),
-        white: &Color::from_html_hex("#FFFFFF"),
-        screen: &Color::from_html_hex("#000000"),
-        bitmap: lm::load_map(&core, filename, map),
+        core: core,
+        display: display,
+        queue: queue,
+        timer: timer,
+        font: font,
+        black: Color::from_html_hex("#000000"),
+        white: Color::from_html_hex("#FFFFFF"),
+        screen: Color::from_html_hex("#000000"),
+        bitmap
     };
+
+
 
     allegro_structure
 }

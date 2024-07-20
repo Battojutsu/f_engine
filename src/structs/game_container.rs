@@ -22,18 +22,18 @@ mod allegro_container;
 mod player_container;
 
 pub struct GameStructure {
-    alleg: allegro_container::AllegroStructure,
-    player: player_container::PlayerStructure,
-    map: tiled::Map,
+    pub alleg: allegro_container::AllegroStructure,
+    pub player: player_container::PlayerStructure,
+    pub map: tiled::Map,
 }
 
 pub fn game_constructor(filename: &str) -> GameStructure {
     let mut loader: Loader = Loader::new();
     let map: tiled::Map = loader
-        .load_tmx_map("src/resources/maps/inside1.tmx")
+        .load_tmx_map(filename)
         .unwrap();
     GameStructure {
-        alleg: allegro_container::allegro_constructor(&map, filename),
+        alleg: allegro_container::allegro_constructor(&map),
         player: player_container::player_constructor(),
         map: map,
     }
