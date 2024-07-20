@@ -1,7 +1,5 @@
-#[path = "structs/game_container.rs"]
-mod game;
+#[path = "game_loop.rs"] mod game_loop;
 
 fn main() {
-    game::game_constructor("test");
-    println!("Hello, world!");
+    game_loop::main_loop();
 }
