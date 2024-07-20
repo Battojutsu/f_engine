@@ -15,7 +15,9 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use tiled::{Image, Loader, Tileset, Map, Layer};
+use std::{any::Any, ops::Deref};
+
+use tiled::{Image, Layer, Loader, Map, TileLayer, Tileset, LayerTile};
 
 use allegro::*;
 //use allegro_image::*;
@@ -45,11 +47,44 @@ pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map
 
     let map_bitmap = Bitmap::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
     let layers = map.layers();
-    for layer in layers.into_iter() {
-        let data = layer.as_tile_layer().unwrap();
-
-    }
     core.set_target_bitmap(Some(&map_bitmap));
+    
+    for layer in layers {
+        let tile_layer: TileLayer = layer.as_tile_layer().unwrap();
 
-    tileset_bitmap
+        let width: i32 = tile_layer.width().unwrap() as i32;
+        let height: i32 = tile_layer.height().unwrap() as i32;
+        let size: i32 = width * height;
+        let mut x: i32 = 0;
+
+
+
+        while x < width {
+            let mut y: i32 = 0;
+            while y < height {
+                let tile: LayerTile = tile_layer.get_tile(x, y).unwrap();
+                
+                let id: u32 = tile.id();
+                y += 1;
+
+                let position: u32 = tile.deref().id();
+
+                let sx:u32 = (position % width as u32) * map.tile_width as u32;
+                let sy:u32 = (position / height as u32) * map.tile_height;
+                
+                
+                core.draw_bitmap_region(&tileset_bitmap,
+                    sx as f32,
+                    sy as f32,
+                    map.tile_width as f32,
+                    map.tile_height as f32,
+                    (x * map.tile_width as i32) as f32,
+                    (y * map.tile_height as i32) as f32,
+                FLIP_NONE);
+
+            }
+            x += 1;
+        }
+    }
+    map_bitmap
 }
