@@ -60,7 +60,7 @@ pub fn allegro_constructor(map: &tiled::Map, filename: &str) -> AllegroStructure
         black: &Color::from_html_hex("#000000"),
         white: &Color::from_html_hex("#FFFFFF"),
         screen: &Color::from_html_hex("#000000"),
-        bitmap: lm::load_map(&core, &display, filename, map),
+        bitmap: lm::load_map(&core, filename, map),
     };
 
     allegro_structure

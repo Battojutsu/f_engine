@@ -15,21 +15,20 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-use std::{any::Any, ops::Deref};
+use std::ops::Deref;
 
-use tiled::{Image, Layer, Loader, Map, TileLayer, Tileset, LayerTile};
+use tiled::{Image, Loader, TileLayer, Tileset, LayerTile};
 
 use allegro::*;
 //use allegro_image::*;
 #[path = "constants.rs"]
 mod constants;
 
-pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map) -> Bitmap {
-    const READONLY_BINARY: &str = "rb";
+pub fn load_map(core: &Core, filename: &str, map: &tiled::Map) -> Bitmap {
     let mut loader: Loader = Loader::new();
 
     let tiled_tileset: Tileset =
-        match loader.load_tsx_tileset("src/resources/tilesets/house_interior.tsx") {
+        match loader.load_tsx_tileset(filename) {
             Ok(v) => v,
             Err(e) => panic!("Error loading tileset {e}."),
         };
@@ -54,25 +53,19 @@ pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map
 
         let width: i32 = tile_layer.width().unwrap() as i32;
         let height: i32 = tile_layer.height().unwrap() as i32;
-        let size: i32 = width * height;
         let mut x: i32 = 0;
-
-
 
         while x < width {
             let mut y: i32 = 0;
             while y < height {
                 let tile: LayerTile = tile_layer.get_tile(x, y).unwrap();
-                
-                let id: u32 = tile.id();
                 y += 1;
 
                 let position: u32 = tile.deref().id();
 
                 let sx:u32 = (position % width as u32) * map.tile_width as u32;
                 let sy:u32 = (position / height as u32) * map.tile_height;
-                
-                
+                                
                 core.draw_bitmap_region(&tileset_bitmap,
                     sx as f32,
                     sy as f32,
@@ -81,7 +74,6 @@ pub fn load_map(core: &Core, display: &Display, filename: &str, map: &tiled::Map
                     (x * map.tile_width as i32) as f32,
                     (y * map.tile_height as i32) as f32,
                 FLIP_NONE);
-
             }
             x += 1;
         }
