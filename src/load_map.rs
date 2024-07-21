@@ -16,30 +16,25 @@
 */
 
 use std::ops::Deref;
+use std::sync::Arc;
 
-use tiled::{Image, Loader, TileLayer, Tileset, LayerTile};
+use tiled::{Image, LayerTile, Loader, TileLayer, Tileset};
 
 use allegro::*;
 //use allegro_image::*;
 #[path = "constants.rs"]
 mod constants;
 
-pub fn load_map(core: &Core, filename: &str, map: &tiled::Map) -> Bitmap {
-    let mut loader: Loader = Loader::new();
-
-    let tiled_tileset: Tileset =
-        match loader.load_tsx_tileset(filename) {
-            Ok(v) => v,
-            Err(e) => panic!("Error loading tileset {e}."),
-        };
-    
-    let image: Image = match tiled_tileset.image {
+pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
+    let tileset_reference: &Arc<Tileset> = match map.tilesets().first() {
         Some(v) => v,
-        None => panic!("Cannot load the image."),
+        None => panic!("Error referencing tileset file")
     };
 
-    let map_dir: &str = image.source.to_str().unwrap();
-    let tileset_bitmap: Bitmap = match Bitmap::load(&core, map_dir) {
+    let tileset_image = tileset_reference.image.as_ref().unwrap();
+    let tileset_filename:&str = tileset_image.source.as_os_str().to_str().unwrap();
+
+    let tileset_bitmap: Bitmap = match Bitmap::load(&core, tileset_filename) {
         Ok(v) => v,
         Err(e) => panic!("Error loading tileset_bitmap {e:?}"),
     };
@@ -47,7 +42,7 @@ pub fn load_map(core: &Core, filename: &str, map: &tiled::Map) -> Bitmap {
     let map_bitmap = Bitmap::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
     let layers = map.layers();
     core.set_target_bitmap(Some(&map_bitmap));
-    
+
     for layer in layers {
         let tile_layer: TileLayer = layer.as_tile_layer().unwrap();
 
@@ -63,17 +58,19 @@ pub fn load_map(core: &Core, filename: &str, map: &tiled::Map) -> Bitmap {
 
                 let position: u32 = tile.deref().id();
 
-                let sx:u32 = (position % width as u32) * map.tile_width as u32;
-                let sy:u32 = (position / height as u32) * map.tile_height;
-                                
-                core.draw_bitmap_region(&tileset_bitmap,
+                let sx: u32 = (position % width as u32) * map.tile_width as u32;
+                let sy: u32 = (position / height as u32) * map.tile_height;
+
+                core.draw_bitmap_region(
+                    &tileset_bitmap,
                     sx as f32,
                     sy as f32,
                     map.tile_width as f32,
                     map.tile_height as f32,
                     (x * map.tile_width as i32) as f32,
                     (y * map.tile_height as i32) as f32,
-                FLIP_NONE);
+                    FLIP_NONE,
+                );
             }
             x += 1;
         }

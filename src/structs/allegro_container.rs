@@ -44,6 +44,8 @@ pub struct AllegroStructure {
 
 pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let core: Core = Core::init().unwrap();
+    core.install_keyboard().unwrap();
+	core.install_mouse().unwrap();
     let queue: EventQueue = EventQueue::new(&core).unwrap();
     let timer: Timer = Timer::new(&core, 1.0 / 60.0).unwrap();
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
@@ -54,6 +56,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     queue.register_event_source(display.get_event_source());
     queue.register_event_source(timer.get_event_source());
     queue.register_event_source(core.get_keyboard_event_source().unwrap());
+    ImageAddon::init(&core).unwrap();
 
     let allegro_structure: AllegroStructure = AllegroStructure {
         core: core,
