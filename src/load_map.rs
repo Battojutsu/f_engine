@@ -28,11 +28,11 @@ mod constants;
 pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
     let tileset_reference: &Arc<Tileset> = match map.tilesets().first() {
         Some(v) => v,
-        None => panic!("Error referencing tileset file")
+        None => panic!("Error referencing tileset file"),
     };
 
     let tileset_image = tileset_reference.image.as_ref().unwrap();
-    let tileset_filename:&str = tileset_image.source.as_os_str().to_str().unwrap();
+    let tileset_filename: &str = tileset_image.source.as_os_str().to_str().unwrap();
 
     let tileset_bitmap: Bitmap = match Bitmap::load(&core, tileset_filename) {
         Ok(v) => v,
@@ -58,8 +58,11 @@ pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
 
                 let position: u32 = tile.deref().id();
 
-                let sx: u32 = (position % width as u32) * map.tile_width as u32;
-                let sy: u32 = (position / height as u32) * map.tile_height;
+                let sx: u32 = (position % tileset_reference.columns as u32)
+                    * tileset_reference.tile_width as u32;
+                let sy: u32 = (position
+                    / (tileset_reference.tilecount / tileset_reference.columns) as u32)
+                    * tileset_reference.tile_height as u32;
 
                 core.draw_bitmap_region(
                     &tileset_bitmap,
