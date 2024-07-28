@@ -45,14 +45,14 @@ pub struct AllegroStructure {
 pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let core: Core = Core::init().unwrap();
     core.install_keyboard().unwrap();
-	core.install_mouse().unwrap();
+    core.install_mouse().unwrap();
     let queue: EventQueue = EventQueue::new(&core).unwrap();
     let timer: Timer = Timer::new(&core, 1.0 / 60.0).unwrap();
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
     let font: Font = Font::new_builtin(&font_addon).unwrap();
     let bitmap: Bitmap = Bitmap::new(&core, map.width as i32, map.height as i32).unwrap();
     let display: Display = Display::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
-    
+
     queue.register_event_source(display.get_event_source());
     queue.register_event_source(timer.get_event_source());
     queue.register_event_source(core.get_keyboard_event_source().unwrap());
@@ -67,7 +67,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
         black: Color::from_html_hex("#000000"),
         white: Color::from_html_hex("#FFFFFF"),
         screen: Color::from_html_hex("#000000"),
-        bitmap
+        bitmap,
     };
 
     allegro_structure
