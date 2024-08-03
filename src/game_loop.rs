@@ -20,7 +20,7 @@ pub fn main_loop() -> u32 {
 			engine.alleg.core.clear_to_color(engine.alleg.black);
 			engine.alleg.core.draw_bitmap(&engine.alleg.bitmap, 0.0, 0.0, FLIP_NONE);
 			// TODO Implement DRAW character where he should be.
-			// TODO Implement display message.
+			engine.alleg.display_message("Testing");
 			engine.alleg.core.flip_display();
 		}
 	}
