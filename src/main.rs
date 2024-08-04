@@ -1,3 +1,10 @@
+/*
+    f_engine - A farming and village life game game engine.
+    Copyright (C) 2024  BattoJutsu
+
+    Licensed under AGPLV3
+*/
+
 #[path = "game_loop.rs"] mod game_loop;
 #[path = "constants.rs"] mod constants;
 #[path = "load_map.rs"] mod lm;

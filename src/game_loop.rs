@@ -1,3 +1,9 @@
+/*
+    f_engine - A farming and village life game game engine.
+    Copyright (C) 2024  BattoJutsu
+
+    Licensed under AGPLV3
+*/
 
 use allegro::*;
 use crate::game_container;
