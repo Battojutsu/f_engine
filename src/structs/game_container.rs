@@ -15,6 +15,7 @@
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
+use allegro::EventSourceLike;
 use tiled::Loader;
 #[path = "allegro_container.rs"]
 mod allegro_container;
@@ -36,5 +37,39 @@ pub fn game_constructor(filename: &str) -> GameStructure {
         alleg: allegro_container::allegro_constructor(&map),
         player: player_container::player_constructor(),
         map: map,
+    }
+}
+
+impl GameStructure {
+    pub fn handle_character_movements(&mut self) {
+        match self.alleg.queue.wait_for_event()
+        {
+            allegro::DisplayClose{source: src, ..} =>
+            {
+                assert!(self.alleg.display.get_event_source().get_event_source() == src);
+                println!("Display close event...");
+                std::process::exit(1);
+            },
+            allegro::KeyDown{keycode: k, ..} if k == allegro::KeyCode::Escape =>
+            {
+                println!("Pressed Escape!");
+                std::process::exit(1);
+            },
+            allegro::KeyChar{keycode: c, ..} =>
+            {
+                if c == allegro::KeyCode::W {
+                    self.player.PLYR_Y -= 1;
+                } 
+                else if c == allegro::KeyCode::A {
+                    self.player.PLYR_X -= 1;
+                }
+                else if c == allegro::KeyCode::S {
+                    self.player.PLYR_Y += 1;
+                } else if c == allegro::KeyCode::D {
+                    self.player.PLYR_X += 1;
+                }
+            },
+            _ => println!("Some other event...") 
+        }
     }
 }
