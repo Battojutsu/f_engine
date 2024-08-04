@@ -1,13 +1,9 @@
-#[path = "structs/allegro_container.rs"]
-mod allegro_container;
-#[path = "structs/game_container.rs"]
-mod game;
 
 use allegro::*;
-use game::GameStructure;
+use crate::game_container;
 
 pub fn main_loop() -> u32 {
-    let mut engine: GameStructure = game::game_constructor("src/resources/maps/inside1.tmx");
+    let mut engine: game_container::GameStructure = game_container::game_constructor("src/resources/maps/inside1.tmx");
     let mut redraw: bool = true;
     loop {
         if redraw && engine.alleg.queue.is_empty() {

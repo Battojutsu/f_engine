@@ -17,10 +17,8 @@
 
 use allegro::EventSourceLike;
 use tiled::Loader;
-#[path = "allegro_container.rs"]
-mod allegro_container;
-#[path = "player_container.rs"]
-mod player_container;
+use crate::allegro_container;
+use crate::player_container;
 
 pub struct GameStructure {
     pub alleg: allegro_container::AllegroStructure,

@@ -14,25 +14,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
+
 // This file defines struct allegro_structure and how to initialize
 // one. This file is meant to combine allegro variables to easily pass between functions.
-
-use std::any::Any;
-
 use allegro::*;
 use allegro_color::*;
 use allegro_font::*;
 use allegro_image::*;
 use allegro_primitives::*;
 use allegro_ttf::*;
-use player_container::PlayerStructure;
-#[path = "../constants.rs"]
-mod constants;
+use crate::constants;
+use crate::lm;
 
-#[path = "../load_map.rs"]
-mod lm;
-#[path = "player_container.rs"]
-mod player_container;
 const MSG_TOP_X: f32 = 0 as f32;
 const MSG_TOP_Y: f32 = (constants::HEIGHT - constants::HEIGHT / 3) as f32;
 const MSG_BOT_X: f32 = constants::WIDTH as f32;
@@ -59,7 +52,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let core: Core = Core::init().unwrap();
 
     // Addon init
-    let image_addon = ImageAddon::init(&core).unwrap();
+    ImageAddon::init(&core).unwrap();
     let primitives_addon: PrimitivesAddon = PrimitivesAddon::init(&core).unwrap();
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
     let ttf_addon = TtfAddon::init(&font_addon).unwrap();
@@ -119,10 +112,6 @@ impl AllegroStructure {
     }
 
     pub fn draw_screen(&mut self, map: &tiled::Map) {
-        let map = lm::load_map(&mut self.core, map);
-
-        self.bitmap = map;
-
-        println!("Hi");
+        self.bitmap = lm::load_map(&mut self.core, map);
     }
 }
