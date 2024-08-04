@@ -19,8 +19,8 @@
 // one. This file is meant to combine player variables to easily pass between functions.
 
 pub struct PlayerStructure {
-    PLYR_X: i32,
-    PLYR_Y: i32,
+    pub PLYR_X: i32,
+    pub PLYR_Y: i32,
 }
 
 pub fn player_constructor() -> PlayerStructure {

@@ -21,7 +21,7 @@ use std::sync::Arc;
 use tiled::{Image, LayerTile, Loader, TileLayer, Tileset};
 
 use allegro::*;
-//use allegro_image::*;
+use allegro_image::*;
 #[path = "constants.rs"]
 mod constants;
 
@@ -33,6 +33,7 @@ pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
 
     let tileset_image = tileset_reference.image.as_ref().unwrap();
     let tileset_filename: &str = tileset_image.source.as_os_str().to_str().unwrap();
+    //ImageAddon::init(&core).unwrap();
 
     let tileset_bitmap: Bitmap = match Bitmap::load(&core, tileset_filename) {
         Ok(v) => v,
