@@ -17,4 +17,3 @@
 
 pub const WIDTH: i32 = 960;
 pub const HEIGHT: i32 = 640;
-pub const GRID_SIZE: i32 = 32;

@@ -57,18 +57,36 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
     let ttf_addon = TtfAddon::init(&font_addon).unwrap();
 
-    let queue: EventQueue = EventQueue::new(&core).unwrap();
-    let timer: Timer = Timer::new(&core, 1.0 / 60.0).unwrap();
-    let font: Font = Font::new_builtin(&font_addon).unwrap();
     let bitmap: Bitmap = lm::load_map(&core, map);
-    let display: Display = Display::new(&core, constants::WIDTH, constants::HEIGHT).unwrap();
+
+
+    let queue: EventQueue = match EventQueue::new(&core) {
+        Ok(v) => v,
+        Err(e) => panic!("Error loading queue. Error: {e:?}"),
+    };
+    
+    let timer: Timer = match Timer::new(&core, 1.0 / 60.0) {
+        Ok(v) => v,
+        Err(e) => panic!("Error loading timer. Error: {e:?}"),
+    };
+
+    let font: Font = match Font::new_builtin(&font_addon) {
+        Ok(v) => v,
+        Err(e) => panic!("Error loading allegro font. Error: {e:?}") 
+    };
+
+    let display: Display = match Display::new(&core, constants::WIDTH, constants::HEIGHT) {
+        Ok(v) => v,
+        Err(e) => panic!("Error loading allegro display. Error: {e:?}")
+    };
+
     let msg_font = match ttf_addon.load_ttf_font(
         "src/resources/fonts/unifont/unifont.otf",
         50,
         TTF_MONOCHROME,
     ) {
         Ok(v) => v,
-        Err(e) => panic!("Error loading msg_font {e:?}"),
+        Err(e) => panic!("Error loading msg_font. Error: {e:?}"),
     };
 
     core.install_keyboard().unwrap();
