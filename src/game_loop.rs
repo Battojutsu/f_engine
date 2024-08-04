@@ -2,7 +2,7 @@
     f_engine - A farming and village life game game engine.
     Copyright (C) 2024  BattoJutsu
 
-    Licensed under AGPLV3
+    Licensed under GNU AGPLv3
 */
 
 use allegro::*;
@@ -34,6 +34,8 @@ pub fn main_loop() -> u32 {
             {
                 engine.handle_character_movements();
             }
+
+            redraw = true;
         }
     }
 }

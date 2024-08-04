@@ -2,7 +2,7 @@
     f_engine - A farming and village life game game engine.
     Copyright (C) 2024  BattoJutsu
 
-    Licensed under AGPLV3
+    Licensed under GNU AGPLv3
 */
 
 pub const WIDTH: i32 = 960;
