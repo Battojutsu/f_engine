@@ -6,3 +6,5 @@ This software does not use the or later provision.
 - LPC_house_interior - [License](src/resources/tilesets/LPC_house_interior/LICENSE)
 - gnu unifont - [License](src/resources/fonts/unifont/LICENSE)
 
+# Configuration.
+Create a tiled project here in root directory. Then add resources/maps and resources/tilesets. It should automatically detect extensions folder.
