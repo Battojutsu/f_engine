@@ -31,12 +31,12 @@ pub struct AllegroStructure {
     pub queue: EventQueue,
     pub timer: Timer,
     pub font: Font,
-    pub bitmap: Bitmap,
+    pub bitmap: Option<Bitmap>,
     pub msg_font: Font,
     pub colors: ColorStructure
 }
 
-pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
+pub fn allegro_constructor() -> AllegroStructure {
     // Core init
     let core: Core = Core::init().unwrap();
 
@@ -46,7 +46,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
     let ttf_addon = TtfAddon::init(&font_addon).unwrap();
 
-    let bitmap: Bitmap = lm::load_map(&core, map);
+    //let bitmap: Bitmap = lm::load_map(&core, map);
 
     let colors: ColorStructure = color_container::color_constructor();
 
@@ -95,8 +95,8 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
         timer: timer,
         font: font,
         colors: colors,
-        bitmap,
-        msg_font,
+        bitmap: None,
+        msg_font
     };
 
     allegro_structure

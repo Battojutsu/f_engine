@@ -13,7 +13,7 @@ use tiled::{LayerTile, TileLayer, Tileset};
 use allegro::*;
 use crate::constants;
 
-pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
+pub fn load_map(core: &Core, map: &tiled::Map) -> Option<Bitmap> {
     let tileset_reference: &Arc<Tileset> = match map.tilesets().first() {
         Some(v) => v,
         None => panic!("Error referencing tileset file"),
@@ -66,5 +66,5 @@ pub fn load_map(core: &Core, map: &tiled::Map) -> Bitmap {
             x += 1;
         }
     }
-    map_bitmap
+    Some(map_bitmap)
 }
