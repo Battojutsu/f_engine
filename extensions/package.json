@@ -1,0 +1,14 @@
+{
+  "name": "f_engine_toolkit",
+  "version": "1.0.0",
+  "description": "game design toolkit for f_engine",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "AGPL-3.0",
+  "devDependencies": {
+    "@mapeditor/tiled-api": "^1.10.1"
+  }
+}
