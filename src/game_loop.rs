@@ -5,7 +5,6 @@
     Licensed under GNU AGPLv3
 */
 
-use allegro::*;
 use crate::game_container;
 
 pub fn main_loop() -> u32 {
