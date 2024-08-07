@@ -10,6 +10,7 @@ use crate::player_container;
 use allegro::EventSourceLike;
 use tiled::Loader;
 
+/// GameStructure is the main game_engine.
 pub struct GameStructure {
     pub alleg: allegro_container::AllegroStructure,
     pub player: player_container::PlayerStructure,
@@ -41,6 +42,7 @@ impl GameStructure {
         self.alleg.core.clear_to_color(self.alleg.colors.black);
     }
 
+    /// load_default_map initializes a map loader then loads the default inside1 test map.
     pub fn load_default_map(&mut self) {
         let mut loader: Loader = Loader::new();
         self.map = Some(
@@ -50,6 +52,7 @@ impl GameStructure {
         );
     }
 
+    /// Check event queue for a timer, a display close or a keydown. Handle the events here.
     pub fn handle_events(&mut self) {
         match self.alleg.queue.wait_for_event() {
             allegro::TimerTick { .. } => {
