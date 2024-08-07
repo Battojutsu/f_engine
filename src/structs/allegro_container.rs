@@ -8,13 +8,15 @@
 // This file defines struct allegro_structure and how to initialize
 // one. This file is meant to combine allegro variables to easily pass between functions.
 use allegro::*;
-use allegro_color::*;
 use allegro_font::*;
 use allegro_image::*;
 use allegro_primitives::*;
 use allegro_ttf::*;
+use crate::color_container::ColorStructure;
 use crate::constants;
 use crate::lm;
+use crate::color_container;
+use std::time;
 
 const MSG_TOP_X: f32 = 0 as f32;
 const MSG_TOP_Y: f32 = (constants::HEIGHT - constants::HEIGHT / 3) as f32;
@@ -29,12 +31,9 @@ pub struct AllegroStructure {
     pub queue: EventQueue,
     pub timer: Timer,
     pub font: Font,
-    pub black: Color,
-    pub white: Color,
-    pub screen: Color,
     pub bitmap: Bitmap,
-    pub gray: Color,
     pub msg_font: Font,
+    pub colors: ColorStructure
 }
 
 pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
@@ -49,6 +48,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
 
     let bitmap: Bitmap = lm::load_map(&core, map);
 
+    let colors: ColorStructure = color_container::color_constructor();
 
     let queue: EventQueue = match EventQueue::new(&core) {
         Ok(v) => v,
@@ -94,10 +94,7 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
         queue: queue,
         timer: timer,
         font: font,
-        black: Color::from_html_hex("#000000"),
-        white: Color::from_html_hex("#FFFFFF"),
-        screen: Color::from_html_hex("#000000"),
-        gray: Color::from_html_hex("#777777"),
+        colors: colors,
         bitmap,
         msg_font,
     };
@@ -108,10 +105,10 @@ pub fn allegro_constructor(map: &tiled::Map) -> AllegroStructure {
 impl AllegroStructure {
     pub fn display_message(&self, message: &str) {
         self.primitives_addon
-            .draw_filled_rectangle(MSG_TOP_X, MSG_TOP_Y, MSG_BOT_X, MSG_BOT_Y, self.gray);
+            .draw_filled_rectangle(MSG_TOP_X, MSG_TOP_Y, MSG_BOT_X, MSG_BOT_Y, self.colors.gray);
         self.core.draw_text(
             &self.msg_font,
-            self.white,
+            self.colors.white,
             MSG_TOP_X,
             MSG_TOP_Y,
             FontAlign::Left,

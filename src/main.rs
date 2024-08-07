@@ -11,6 +11,7 @@
 #[path = "structs/player_container.rs"] mod player_container;
 #[path = "structs/allegro_container.rs"] mod allegro_container;
 #[path = "structs/game_container.rs"] mod game_container;
+#[path = "structs/color_container.rs"] mod color_container;
 
 fn main() {
     game_loop::main_loop();
