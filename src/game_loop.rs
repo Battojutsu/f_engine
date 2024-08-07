@@ -12,7 +12,7 @@ pub fn main_loop() -> u32 {
     /*
      * Initialize Game Engine
      */
-    let mut engine: game_container::GameStructure = game_container::game_constructor();
+    let mut engine: game_container::GameStructure = game_container::GameStructure::new();
 
     engine.alleg.timer.start();
 

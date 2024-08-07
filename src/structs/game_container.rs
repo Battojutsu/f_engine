@@ -20,18 +20,20 @@ pub struct GameStructure {
     pub displaying_text: bool,
 }
 
-pub fn game_constructor() -> GameStructure {
-    GameStructure {
-        alleg: allegro_container::allegro_constructor(/*&map*/),
-        player: player_container::player_constructor(),
-        map: None,
-        redraw: true,
-        ticker: 0,
-        displaying_text: false,
-    }
-}
-
+/// Implementation of GameStructure methods.
 impl GameStructure {
+    /// Constructor.
+    pub fn new() -> GameStructure {
+        GameStructure {
+            alleg: allegro_container::allegro_constructor(/*&map*/),
+            player: player_container::player_constructor(),
+            map: None,
+            redraw: true,
+            ticker: 0,
+            displaying_text: false,
+        }
+    }
+
     /// reset_backbuffer is an abstraction that sets the target bitmap to the displays backbuffer.
     /// It then continues to clear to black. This should be called before drawing to the screen.
     pub fn reset_backbuffer(&self) {
