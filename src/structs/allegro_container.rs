@@ -7,15 +7,15 @@
 
 // This file defines struct allegro_structure and how to initialize
 // one. This file is meant to combine allegro variables to easily pass between functions.
+use crate::color_container;
+use crate::color_container::ColorStructure;
+use crate::constants;
+use crate::lm;
 use allegro::*;
 use allegro_font::*;
 use allegro_image::*;
 use allegro_primitives::*;
 use allegro_ttf::*;
-use crate::color_container::ColorStructure;
-use crate::constants;
-use crate::lm;
-use crate::color_container;
 use std::time;
 
 const MSG_TOP_X: f32 = 0 as f32;
@@ -33,7 +33,8 @@ pub struct AllegroStructure {
     pub font: Font,
     pub bitmap: Option<Bitmap>,
     pub msg_font: Font,
-    pub colors: ColorStructure
+    pub colors: ColorStructure,
+    pub is_new_map: bool
 }
 
 pub fn allegro_constructor() -> AllegroStructure {
@@ -54,7 +55,7 @@ pub fn allegro_constructor() -> AllegroStructure {
         Ok(v) => v,
         Err(e) => panic!("Error loading queue. Error: {e:?}"),
     };
-    
+
     let timer: Timer = match Timer::new(&core, 1.0 / 60.0) {
         Ok(v) => v,
         Err(e) => panic!("Error loading timer. Error: {e:?}"),
@@ -62,12 +63,12 @@ pub fn allegro_constructor() -> AllegroStructure {
 
     let font: Font = match Font::new_builtin(&font_addon) {
         Ok(v) => v,
-        Err(e) => panic!("Error loading allegro font. Error: {e:?}") 
+        Err(e) => panic!("Error loading allegro font. Error: {e:?}"),
     };
 
     let display: Display = match Display::new(&core, constants::WIDTH, constants::HEIGHT) {
         Ok(v) => v,
-        Err(e) => panic!("Error loading allegro display. Error: {e:?}")
+        Err(e) => panic!("Error loading allegro display. Error: {e:?}"),
     };
 
     let msg_font = match ttf_addon.load_ttf_font(
@@ -96,7 +97,8 @@ pub fn allegro_constructor() -> AllegroStructure {
         font: font,
         colors: colors,
         bitmap: None,
-        msg_font
+        msg_font,
+        is_new_map: false
     };
 
     allegro_structure
@@ -104,8 +106,13 @@ pub fn allegro_constructor() -> AllegroStructure {
 
 impl AllegroStructure {
     pub fn display_message(&self, message: &str) {
-        self.primitives_addon
-            .draw_filled_rectangle(MSG_TOP_X, MSG_TOP_Y, MSG_BOT_X, MSG_BOT_Y, self.colors.gray);
+        self.primitives_addon.draw_filled_rectangle(
+            MSG_TOP_X,
+            MSG_TOP_Y,
+            MSG_BOT_X,
+            MSG_BOT_Y,
+            self.colors.gray,
+        );
         self.core.draw_text(
             &self.msg_font,
             self.colors.white,
@@ -116,7 +123,28 @@ impl AllegroStructure {
         );
     }
 
+    /// reset_backbuffer is an abstraction that sets the target bitmap to the displays backbuffer.
+    /// It then continues to clear to black. This should be called before drawing to the screen.
+    fn reset_backbuffer(&self) {
+        self.core
+            .set_target_bitmap(Some(self.display.get_backbuffer()));
+        self.core.clear_to_color(self.colors.black);
+    }
+
+    /// replace_screen_with:: Takes a bitmap and replaces the current display bitmap with the frame_bitmap.
+    fn replace_screen_with(&self, frame_bitmap: &Bitmap) {
+        self.reset_backbuffer();
+        self.core.draw_bitmap(frame_bitmap, 0.0, 0.0, FLIP_NONE);
+    }
+
+    /// draw_screen: Replace current display bitmap with bitmap drawn from map data structure.
+    /// Caller is responsible for checking if map is defined.
     pub fn draw_screen(&mut self, map: &tiled::Map) {
-        self.bitmap = lm::load_map(&mut self.core, map);
+        self.reset_backbuffer();
+        if self.is_new_map {
+            self.bitmap = lm::load_map(&mut self.core, map);
+            self.is_new_map = false;
+        }
+        self.replace_screen_with(self.bitmap.as_ref().unwrap());
     }
 }

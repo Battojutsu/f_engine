@@ -21,26 +21,15 @@ pub fn main_loop() -> u32 {
             engine.redraw = false;
 
             match &engine.map {
-                Some(v) => { engine.alleg.draw_screen(v); },
+                Some(v) => {
+                    // If there is a map loaded then draw this screen from the map file.
+                    engine.alleg.draw_screen(v);
+                },
                 None => {
                     // If there isn't a map loaded then load the default one.
                     engine.load_default_map();
                 }
             }
-                        
-            engine.reset_backbuffer();
-
-            let map: &Bitmap = match engine.alleg.bitmap.as_ref() {
-                Some(v) => v,
-                None => {
-                    continue;
-                }
-            };
-
-            engine
-                .alleg
-                .core
-                .draw_bitmap(map, 0.0, 0.0, FLIP_NONE);
 
             // TODO Implement DRAW character where he should be.
             if engine.displaying_text {

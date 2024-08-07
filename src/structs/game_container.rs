@@ -7,6 +7,7 @@
 
 use crate::allegro_container;
 use crate::player_container;
+use allegro::*;
 use allegro::EventSourceLike;
 use tiled::Loader;
 
@@ -17,7 +18,7 @@ pub struct GameStructure {
     pub map: Option<tiled::Map>,
     pub redraw: bool,
     pub ticker: u32,
-    pub displaying_text: bool,
+    pub displaying_text: bool
 }
 
 /// Implementation of GameStructure methods.
@@ -30,23 +31,14 @@ impl GameStructure {
             map: None,
             redraw: true,
             ticker: 0,
-            displaying_text: false,
+            displaying_text: false
         }
-    }
-
-    /// reset_backbuffer is an abstraction that sets the target bitmap to the displays backbuffer.
-    /// It then continues to clear to black. This should be called before drawing to the screen.
-    pub fn reset_backbuffer(&self) {
-        self.alleg
-            .core
-            .set_target_bitmap(Some(self.alleg.display.get_backbuffer()));
-
-        self.alleg.core.clear_to_color(self.alleg.colors.black);
     }
 
     /// load_default_map initializes a map loader then loads the default inside1 test map.
     pub fn load_default_map(&mut self) {
         let mut loader: Loader = Loader::new();
+        self.alleg.is_new_map = true;
         self.map = Some(
             loader
                 .load_tmx_map("src/resources/maps/inside1.tmx")
