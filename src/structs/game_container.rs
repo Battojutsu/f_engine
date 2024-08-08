@@ -7,7 +7,6 @@
 
 use crate::allegro_container;
 use crate::player_container;
-use allegro::*;
 use allegro::EventSourceLike;
 use tiled::Loader;
 

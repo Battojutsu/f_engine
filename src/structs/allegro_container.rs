@@ -16,7 +16,6 @@ use allegro_font::*;
 use allegro_image::*;
 use allegro_primitives::*;
 use allegro_ttf::*;
-use std::time;
 
 const MSG_TOP_X: f32 = 0 as f32;
 const MSG_TOP_Y: f32 = (constants::HEIGHT - constants::HEIGHT / 3) as f32;
@@ -26,11 +25,9 @@ const MSG_BOT_Y: f32 = constants::HEIGHT as f32;
 pub struct AllegroStructure {
     pub core: Core,
     pub primitives_addon: PrimitivesAddon,
-    pub font_addon: FontAddon,
     pub display: Display,
     pub queue: EventQueue,
     pub timer: Timer,
-    pub font: Font,
     pub bitmap: Option<Bitmap>,
     pub msg_font: Font,
     pub colors: ColorStructure,
@@ -46,8 +43,6 @@ pub fn allegro_constructor() -> AllegroStructure {
     let primitives_addon: PrimitivesAddon = PrimitivesAddon::init(&core).unwrap();
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
     let ttf_addon = TtfAddon::init(&font_addon).unwrap();
-
-    //let bitmap: Bitmap = lm::load_map(&core, map);
 
     let colors: ColorStructure = color_container::color_constructor();
 
@@ -90,11 +85,9 @@ pub fn allegro_constructor() -> AllegroStructure {
     let allegro_structure: AllegroStructure = AllegroStructure {
         core: core,
         primitives_addon: primitives_addon,
-        font_addon: font_addon,
         display: display,
         queue: queue,
         timer: timer,
-        font: font,
         colors: colors,
         bitmap: None,
         msg_font,
