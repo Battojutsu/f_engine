@@ -64,13 +64,13 @@ impl GameStructure {
             }
             allegro::KeyDown { keycode: k, .. } => {
                 if k == allegro::KeyCode::W {
-                    self.player.PLYR_Y -= 1;
+                    self.player.plyr_y -= 1;
                 } else if k == allegro::KeyCode::A {
-                    self.player.PLYR_X -= 1;
+                    self.player.plyr_x -= 1;
                 } else if k == allegro::KeyCode::S {
-                    self.player.PLYR_Y += 1;
+                    self.player.plyr_y += 1;
                 } else if k == allegro::KeyCode::D {
-                    self.player.PLYR_X += 1;
+                    self.player.plyr_x += 1;
                 } else if k == allegro::KeyCode::Enter {
                     if self.displaying_text {
                         self.displaying_text = false;

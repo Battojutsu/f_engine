@@ -9,14 +9,14 @@
 // one. This file is meant to combine player variables to easily pass between functions.
 
 pub struct PlayerStructure {
-    pub PLYR_X: i32,
-    pub PLYR_Y: i32,
+    pub plyr_x: i32,
+    pub plyr_y: i32,
 }
 
 pub fn player_constructor() -> PlayerStructure {
     let player = PlayerStructure {
-        PLYR_X: 0,
-        PLYR_Y: 0,
+        plyr_x: 0,
+        plyr_y: 0,
     };
 
     player
