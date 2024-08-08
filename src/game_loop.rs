@@ -5,17 +5,13 @@
     Licensed under GNU AGPLv3
 */
 
-use allegro::*;
-use crate::game_container;
+use crate::game_container::GameStructure;
 
 pub fn main_loop() -> u32 {
     /*
      * Initialize Game Engine
-     * 
-     * TODO
-     * Make it not require a map file for the constructor.
      */
-    let mut engine: game_container::GameStructure = game_container::game_constructor("src/resources/maps/inside1.tmx");
+    let mut engine: GameStructure = GameStructure::new();
 
     engine.alleg.timer.start();
 
@@ -23,20 +19,20 @@ pub fn main_loop() -> u32 {
         if engine.redraw && engine.alleg.queue.is_empty() {
             engine.redraw = false;
 
-            { engine.alleg.draw_screen(&engine.map); }
+            match &engine.map {
+                Some(v) => {
+                    // If there is a map loaded then draw this screen from the map file.
+                    engine.alleg.draw_screen(v);
+                },
+                None => {
+                    // If there isn't a map loaded then load the default one.
+                    engine.load_default_map();
+                    continue;
+                }
+            }
+
+            engine.alleg.player.draw(&engine.alleg.core);
             
-            engine
-                .alleg
-                .core
-                .set_target_bitmap(Some(engine.alleg.display.get_backbuffer()));
-            engine.alleg.core.clear_to_color(engine.alleg.colors.black);
-
-            engine
-                .alleg
-                .core
-                .draw_bitmap(&engine.alleg.bitmap, 0.0, 0.0, FLIP_NONE);
-
-            // TODO Implement DRAW character where he should be.
             if engine.displaying_text {
                 engine.alleg.display_message("Testing");
             }

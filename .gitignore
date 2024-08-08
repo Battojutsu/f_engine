@@ -5,4 +5,5 @@ notes.md
 f_engine.tiled-session
 f_engine.tiled-project
 Cargo.lock
-extensions
+node_modules
+package-lock.json
