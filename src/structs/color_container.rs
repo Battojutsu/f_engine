@@ -1,3 +1,10 @@
+/*
+    f_engine - A farming and village life game game engine.
+    Copyright (C) 2024  BattoJutsu
+
+    Licensed under GNU AGPLv3
+*/
+
 use allegro::*;
 use allegro_color::*;
 

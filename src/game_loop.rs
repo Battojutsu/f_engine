@@ -5,13 +5,13 @@
     Licensed under GNU AGPLv3
 */
 
-use crate::game_container;
+use crate::game_container::GameStructure;
 
 pub fn main_loop() -> u32 {
     /*
      * Initialize Game Engine
      */
-    let mut engine: game_container::GameStructure = game_container::GameStructure::new();
+    let mut engine: GameStructure = GameStructure::new();
 
     engine.alleg.timer.start();
 
@@ -27,10 +27,12 @@ pub fn main_loop() -> u32 {
                 None => {
                     // If there isn't a map loaded then load the default one.
                     engine.load_default_map();
+                    continue;
                 }
             }
 
-            // TODO Implement DRAW character where he should be.
+            engine.alleg.player.draw(&engine.alleg.core);
+            
             if engine.displaying_text {
                 engine.alleg.display_message("Testing");
             }

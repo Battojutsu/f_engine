@@ -5,12 +5,14 @@
     Licensed under GNU AGPLv3
 */
 
+use crate::animation_container::AnimationStructure;
 // This file defines struct allegro_structure and how to initialize
 // one. This file is meant to combine allegro variables to easily pass between functions.
 use crate::color_container;
 use crate::color_container::ColorStructure;
 use crate::constants;
 use crate::lm;
+
 use allegro::*;
 use allegro_font::*;
 use allegro_image::*;
@@ -31,7 +33,8 @@ pub struct AllegroStructure {
     pub bitmap: Option<Bitmap>,
     pub msg_font: Font,
     pub colors: ColorStructure,
-    pub is_new_map: bool
+    pub is_new_map: bool,
+    pub player: AnimationStructure
 }
 
 pub fn allegro_constructor() -> AllegroStructure {
@@ -42,7 +45,7 @@ pub fn allegro_constructor() -> AllegroStructure {
     ImageAddon::init(&core).unwrap();
     let primitives_addon: PrimitivesAddon = PrimitivesAddon::init(&core).unwrap();
     let font_addon: FontAddon = FontAddon::init(&core).unwrap();
-    let ttf_addon = TtfAddon::init(&font_addon).unwrap();
+    let ttf_addon: TtfAddon = TtfAddon::init(&font_addon).unwrap();
 
     let colors: ColorStructure = color_container::color_constructor();
 
@@ -77,16 +80,19 @@ pub fn allegro_constructor() -> AllegroStructure {
     queue.register_event_source(timer.get_event_source());
     queue.register_event_source(core.get_keyboard_event_source().unwrap());
 
+    let player:AnimationStructure = AnimationStructure::new(&core, 32, 32);
+
     let allegro_structure: AllegroStructure = AllegroStructure {
-        core: core,
-        primitives_addon: primitives_addon,
-        display: display,
-        queue: queue,
-        timer: timer,
-        colors: colors,
+        core,
+        primitives_addon,
+        display,
+        queue,
+        timer,
+        colors,
         bitmap: None,
         msg_font,
-        is_new_map: false
+        is_new_map: false,
+        player
     };
 
     allegro_structure
