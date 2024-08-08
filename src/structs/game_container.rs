@@ -52,7 +52,7 @@ impl GameStructure {
                 self.redraw = true;
                 self.ticker += 1;
 
-                if (self.ticker % 60 == 0) {
+                if self.ticker % 60 == 0 {
                     println!("60 frame tick.")
                 }
             }

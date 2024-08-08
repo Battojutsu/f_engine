@@ -56,11 +56,6 @@ pub fn allegro_constructor() -> AllegroStructure {
         Err(e) => panic!("Error loading timer. Error: {e:?}"),
     };
 
-    let font: Font = match Font::new_builtin(&font_addon) {
-        Ok(v) => v,
-        Err(e) => panic!("Error loading allegro font. Error: {e:?}"),
-    };
-
     let display: Display = match Display::new(&core, constants::WIDTH, constants::HEIGHT) {
         Ok(v) => v,
         Err(e) => panic!("Error loading allegro display. Error: {e:?}"),
