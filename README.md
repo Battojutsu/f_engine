@@ -9,3 +9,7 @@ This software does not use the or later provision.
 
 # Configuration.
 Create a tiled project here in root directory. Then add resources/maps and resources/tilesets. It should automatically detect extensions folder.
+
+
+#Conversion to webgl todo
+- [x] Event loop 60 fps

@@ -5,6 +5,9 @@
     Licensed under GNU AGPLv3
 */
 
+use winit::error::EventLoopError;
+
+#[path = "winit_loop.rs"] mod winit_loop;
 #[path = "game_loop.rs"] mod game_loop;
 #[path = "constants.rs"] mod constants;
 #[path = "load_map.rs"] mod lm;
@@ -15,5 +18,7 @@
 #[path = "structs/animation_container.rs"] mod animation_container;
 
 fn main() {
-    game_loop::main_loop();
+    //game_loop::main_loop();
+
+    winit_loop::main();
 }
